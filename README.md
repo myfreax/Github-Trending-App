@@ -1,4 +1,4 @@
-# Github Trending App
+# Github Trending App [![Build Status](https://travis-ci.org/huangyanxiong01/Github-Trending-App.svg?branch=master)](https://travis-ci.org/huangyanxiong01/Github-Trending-App)
 
 Github Trending app built with [Flutter](https://github.com/flutter)
 
