@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'repos.dart';
 import 'views/repo.dart';
 
-
 const String URL =
     'https://api.github.com/search/repositories?sort=starts&order=desc&q=created:2019-04-03';
 
@@ -66,23 +65,24 @@ class MyappState extends State {
         appBar: AppBar(
           title: Text('Github trending'),
           actions: <Widget>[
-            Builder(builder: (context){
-              return Padding(
-                child: IconButton(
-                  icon: Icon(Icons.filter_list),
-                  onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
-                  },
-                ),
-                padding: EdgeInsets.only(right: 0));
-            },),
-            
+            Builder(
+              builder: (context) {
+                return Padding(
+                    child: IconButton(
+                      icon: Icon(Icons.filter_list),
+                      onPressed: () {
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                    ),
+                    padding: EdgeInsets.only(right: 0));
+              },
+            ),
           ],
         ),
         body: FutureBuilder(
           future: fetchRepos(),
-          builder: (BuildContext context,AsyncSnapshot snapshot){
-          if (snapshot.hasData) {
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
               List<Widget> list = [];
               for (var i = 0; i < snapshot.data.items.length; i++) {
                 list.add(buildRepo(snapshot.data.items[i]));
@@ -96,14 +96,14 @@ class MyappState extends State {
             }
             // By default, show a loading spinner
             return Center(child: CircularProgressIndicator());
-        },),
+          },
+        ),
       ),
     );
   }
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return MyappState();
