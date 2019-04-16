@@ -2,7 +2,9 @@
 
 Github Trending app built with [Flutter](https://github.com/flutter)
 
-<img src="./images/Screenshot_1555071768.png" width="320">
+<img src="./images/Screenshot_1555422547.png" width="320">
+
+<img src="./images/Screenshot_1555422560.png" width="320">
 
 ## Build
 
@@ -16,12 +18,6 @@ Get packages from dart pub site
 
 ```
 flutter packages get
-```
-
-Serializing JSON using code generation libraries
-
-```
-flutter packages pub run build_runner build
 ```
 
 Run app
