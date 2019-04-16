@@ -43,7 +43,7 @@ Widget buildRepo(Repo repo) {
                     Icons.star,
                     size: iconSize,
                   ),
-                  Text(repo.stars.toString())
+                  Text(repo.star.toString())
                 ],
               ),
             ]),
@@ -54,7 +54,7 @@ Widget buildRepo(Repo repo) {
                     Icons.call_split,
                     size: iconSize,
                   ),
-                  Text(repo.forks.toString())
+                  Text(repo.fork.toString())
                 ],
               ),
             ]),

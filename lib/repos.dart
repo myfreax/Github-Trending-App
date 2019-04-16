@@ -8,7 +8,7 @@ class Repos {
   List<Repo> items;
   @JsonKey(name: 'total_count')
   int total;
-  Repos(this.total,this.items);
+  Repos(this.total, this.items);
   factory Repos.fromJson(Map<String, dynamic> json) => _$ReposFromJson(json);
-  Map<String,dynamic> toJson() => _$ReposToJson(this);
+  Map<String, dynamic> toJson() => _$ReposToJson(this);
 }

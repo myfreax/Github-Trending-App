@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'repos.dart';
 import 'views/repo.dart';
-
-const String URL =
-    'https://api.github.com/search/repositories?sort=starts&order=desc&q=created:2019-04-03';
+import 'package:github_trend/github_trend.dart';
 
 void main(List<String> args) {
   runApp(MyApp());
 }
 
-Future<Repos> fetchRepos() async {
-  final reponse = await http.get(URL);
-  if (reponse.statusCode == 200) {
-    return Repos.fromJson(jsonDecode(reponse.body));
+Future<Repos> fetchRepos(
+    {String language: 'all', String since: 'daily'}) async {
+  GithubTrend githubTrend = GithubTrend();
+  final reposList =
+      await githubTrend.fetchTrendingRepos(language: language, since: since);
+  Map<String, dynamic> repos = {};
+  if (githubTrend.response.statusCode == 200) {
+    repos['items'] = reposList;
+    repos['total'] = reposList.length;
+    return Repos.fromJson(repos);
   } else {
     throw Exception('load data fail');
   }
+}
+
+Future<List<String>> fetchLanguages() async {
+  GithubTrend githubTrend = GithubTrend();
+  List<String> languages = await githubTrend.fetchLanguages();
+  return languages;
 }
 
 class MyappState extends State {
@@ -26,27 +34,35 @@ class MyappState extends State {
     return MaterialApp(
       home: Scaffold(
         endDrawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                title: Text('All'),
-                onTap: () {
-                  // change app state...
-                  // StepState();
-                  Navigator.pop(context); // close the drawer
-                },
-              ),
-              Divider(),
-              ListTile(
-                title: Text('Rust'),
-                onTap: () {
-                  // change app state...
-                  // StepState();
-                  Navigator.pop(context); // close the drawer
-                },
-              ),
-            ],
-          ),
+          child: FutureBuilder(
+              future: fetchLanguages(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  List<Widget> languagesWidget = [];
+                  for (var i = 0; i < snapshot.data.length; i++) {
+                    languagesWidget.add(ListTile(
+                      // leading: const Icon(FontAwesomeIcons.gamepad),
+                      title: Text(snapshot.data[i]),
+                      onTap: () {
+                        // change app state...
+                        // StepState();
+                        setState(() {
+                          fetchRepos(language: snapshot.data[i]);
+                        });
+                        print(snapshot.data[i]);
+                        Navigator.pop(context); // close the drawer
+                      },
+                    ));
+                    if (i < snapshot.data.length - 1) {
+                      languagesWidget.add(Divider());
+                    }
+                  }
+                  return ListView(children: languagesWidget);
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("${snapshot.error}"));
+                }
+                return Center(child: CircularProgressIndicator());
+              }),
         ),
         drawer: Drawer(
           child: ListView(
