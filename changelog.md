@@ -1,3 +1,8 @@
+# 0.1.3
+
+- Add package packageinfo,lanchicon,scoped_model
+- Add scoped_model suport
+
 # 0.1.2
 
 - Add package github_trend,font-awesome-icon
