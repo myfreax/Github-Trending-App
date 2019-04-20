@@ -32,7 +32,7 @@ Widget buildRepo(Repo repo) {
               Row(
                 children: <Widget>[
                   Icon(Icons.language, size: iconSize),
-                  Text(repo.language)
+                  Text(' ' + repo.language)
                 ],
               ),
             ]),
@@ -43,7 +43,7 @@ Widget buildRepo(Repo repo) {
                     Icons.star,
                     size: iconSize,
                   ),
-                  Text(repo.star.toString())
+                  Text(' ' + repo.star.toString())
                 ],
               ),
             ]),
@@ -54,18 +54,18 @@ Widget buildRepo(Repo repo) {
                     Icons.call_split,
                     size: iconSize,
                   ),
-                  Text(repo.fork.toString())
+                  Text(' '+repo.fork.toString())
                 ],
               ),
             ]),
-            // Column(children: <Widget>[
-            //   Row(
-            //     children: <Widget>[
-            //       Icon(Icons.star, size: iconSize),
-            //       Text(repo.todayStars.toString() + ' stars today')
-            //     ],
-            //   ),
-            // ]),
+            Column(children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(Icons.star, size: iconSize),
+                  Text(' ' + repo.todayStar.toString())
+                ],
+              ),
+            ]),
           ],
         )
       ],
