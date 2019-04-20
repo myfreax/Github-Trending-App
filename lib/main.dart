@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
-import 'repos.dart';
-import 'views/repo.dart';
+import 'package:scoped_model/scoped_model.dart';
+import 'package:GTA/models/repos.dart';
+import 'package:GTA/views/repos.dart';
 import 'package:github_trend/github_trend.dart';
+import 'package:package_info/package_info.dart';
 
-void main(List<String> args) {
-  runApp(MyApp());
-}
-
-Future<Repos> fetchRepos(
-    {String language: 'all', String since: 'daily'}) async {
-  GithubTrend githubTrend = GithubTrend();
-  final reposList =
-      await githubTrend.fetchTrendingRepos(language: language, since: since);
-  Map<String, dynamic> repos = {};
-  if (githubTrend.response.statusCode == 200) {
-    repos['items'] = reposList;
-    repos['total'] = reposList.length;
-    return Repos.fromJson(repos);
-  } else {
-    throw Exception('load data fail');
-  }
+void main(List<String> args) async {
+  ReposModel reposModel = ReposModel();
+  await reposModel.initState();
+  runApp(ScopedModel<ReposModel>(
+    child: MyApp(),
+    model: reposModel,
+  ));
 }
 
 Future<List<String>> fetchLanguages() async {
@@ -28,11 +20,34 @@ Future<List<String>> fetchLanguages() async {
   return languages;
 }
 
+Future<PackageInfo> fetchPackageInfo() async {
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  return packageInfo;
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MyappState();
+  }
+}
+
 class MyappState extends State {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: ScopedModelDescendant<ReposModel>(
+          builder: (context, widget, reposModel) {
+            return FloatingActionButton(
+              onPressed: () {
+                reposModel.fetchRepos();
+              },
+              tooltip: 'refresh',
+              child: Icon(Icons.refresh),
+            );
+          },
+        ),
         endDrawer: Drawer(
           child: FutureBuilder(
               future: fetchLanguages(),
@@ -41,16 +56,18 @@ class MyappState extends State {
                   List<Widget> languagesWidget = [];
                   for (var i = 0; i < snapshot.data.length; i++) {
                     languagesWidget.add(ListTile(
+                      // TODO Add icon for languages
                       // leading: const Icon(FontAwesomeIcons.gamepad),
                       title: Text(snapshot.data[i]),
                       onTap: () {
-                        // change app state...
-                        // StepState();
-                        setState(() {
-                          fetchRepos(language: snapshot.data[i]);
-                        });
-                        print(snapshot.data[i]);
                         Navigator.pop(context); // close the drawer
+                        ReposModel reposModel =
+                            ScopedModel.of<ReposModel>(context);
+                        reposModel.language =
+                            snapshot.data[i] == 'Unknown languages'
+                                ? 'unknown'
+                                : snapshot.data[i];
+                        reposModel.fetchRepos();
                       },
                     ));
                     if (i < snapshot.data.length - 1) {
@@ -65,18 +82,28 @@ class MyappState extends State {
               }),
         ),
         drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              AboutListTile(
-                child: Text('About'),
-                icon: Icon(Icons.help),
-                applicationIcon: Icon(Icons.trending_up),
-                applicationName: 'GTA',
-                applicationVersion: '0.1.0',
-                applicationLegalese: 'Github Trending app built with Flutter',
-              )
-            ],
-          ),
+          child: FutureBuilder(
+              future: fetchPackageInfo(),
+              builder: (BuildContext context, AsyncSnapshot<PackageInfo> info) {
+                if (info.hasData) {
+                  return ListView(
+                    children: <Widget>[
+                      AboutListTile(
+                        child: Text('About'),
+                        icon: Icon(Icons.help),
+                        applicationIcon: Icon(Icons.trending_up),
+                        applicationName: info.data.appName,
+                        applicationVersion: info.data.version,
+                        applicationLegalese:
+                            'Github Trending app built with Flutter',
+                      )
+                    ],
+                  );
+                } else if (info.hasError) {
+                  return Center(child: Text("${info.error}"));
+                }
+                return Center(child: CircularProgressIndicator());
+              }),
         ),
         appBar: AppBar(
           title: Text('Github trending'),
@@ -95,33 +122,8 @@ class MyappState extends State {
             ),
           ],
         ),
-        body: FutureBuilder(
-          future: fetchRepos(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              List<Widget> list = [];
-              for (var i = 0; i < snapshot.data.items.length; i++) {
-                list.add(buildRepo(snapshot.data.items[i]));
-                if (i < snapshot.data.items.length - 1) {
-                  list.add(Divider());
-                }
-              }
-              return ListView(children: list);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading spinner
-            return Center(child: CircularProgressIndicator());
-          },
-        ),
+        body: ReposWidget(),
       ),
     );
-  }
-}
-
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return MyappState();
   }
 }
