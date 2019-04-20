@@ -2,9 +2,12 @@
 
 Github Trending app built with [Flutter](https://github.com/flutter)
 
-<img src="./images/Screenshot_1555422547.png" width="320">
 
-<img src="./images/Screenshot_1555422560.png" width="320">
+<img align="left" src="./images/Screenshot_1555422547.png" width="320">  
+<img  src="./images/Screenshot_1555422560.png" width="320">
+
+
+
 
 ## Build
 
@@ -30,3 +33,4 @@ flutter run
 - How build layout in flutter
 - How read data from Remote Api
 - How auto serializing JSON
+- How add interactivity with multi widget
