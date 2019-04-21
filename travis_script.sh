@@ -4,7 +4,7 @@ set -e
 ./flutter/bin/flutter packages get
 
 #Serializing JSON using code generation libraries
-./flutter/bin/flutter packages pub run build_runner build
+#./flutter/bin/flutter packages pub run build_runner build
 
 
 # Run the analyzer to find any static analysis issues.
