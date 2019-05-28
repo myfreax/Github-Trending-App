@@ -40,7 +40,6 @@ class ListsWidget extends StatelessWidget {
                 List<Widget> languagesWidget = [];
                 for (var i = 0; i < snapshot.data.length; i++) {
                   languagesWidget.add(ListTile(
-                    // TODO Add icon for languages
                     // leading: const Icon(FontAwesomeIcons.gamepad),
                     title: Text(snapshot.data[i]),
                     onTap: () {
