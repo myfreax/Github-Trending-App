@@ -9,35 +9,28 @@ class ReposModel extends Model {
   GithubTrend githubTrend;
   String loadErrorMsg = '';
 
-  ReposModel(){
-   githubTrend = GithubTrend(); 
+  ReposModel() {
+    githubTrend = GithubTrend();
   }
 
   void initState() async {
     await fetchRepos();
   }
 
-
   void fetchRepos({String since: 'daily'}) async {
     isLoading = true;
     notifyListeners();
-    // try {
-      final reposList =
-          await githubTrend.fetchRepos(language: language, since: since);
-      if (githubTrend.response.statusCode == 200) {
-        Map<String, dynamic> res = {};
-        res['items'] = reposList;
-        res['total'] = reposList.length;
-        repos = Repos.fromJson(res);
-        isLoading = false;
-        notifyListeners();
-      } else {
-        throw Exception('load data fail');
-      }
-    // } catch (e) {
-    //   print(e);
-    //   loadErrorMsg = e.message;
-    //   notifyListeners();
-    // }
+    final reposList =
+        await githubTrend.fetchRepos(language: language, since: since);
+    if (githubTrend.response.statusCode == 200) {
+      Map<String, dynamic> res = {};
+      res['items'] = reposList;
+      res['total'] = reposList.length;
+      repos = Repos.fromJson(res);
+      isLoading = false;
+      notifyListeners();
+    } else {
+      throw Exception('load data fail');
+    }
   }
 }
