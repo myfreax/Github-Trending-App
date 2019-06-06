@@ -29,7 +29,7 @@ dependencies:
   github_trend: ^0.1.4
   font_awesome_flutter: ^8.2.0
   scoped_model: ^1.0.1
-  package_info: ^0.4.0+3
+  package_info: ^0.4.0+4
   bloc: ^0.14.2
   flutter_launcher_icons: ^0.7.0
 
