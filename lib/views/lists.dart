@@ -112,7 +112,7 @@ class ListsWidget extends StatelessWidget {
           if (repos != null && reposModel.isLoading == false) {
             List<Widget> list = [];
             for (var i = 0; i < repos.items.length; i++) {
-              list.add(buildRepo(repos.items[i]));
+              list.add(buildRepo(repos.items[i], buildContext));
               if (i < repos.items.length - 1) {
                 list.add(Divider());
               }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../repo.dart';
-
-Widget buildRepo(Repo repo) {
+// Todo the function will be widget
+Widget buildRepo(Repo repo,BuildContext context) {
   final double iconSize = 12;
   return GestureDetector(
       onTap: () {
-        print('click');
+        // Navigator.pushNamed(context, '/detail');
       },
       child: Container(
         padding: EdgeInsets.all(10),

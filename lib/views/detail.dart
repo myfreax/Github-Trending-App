@@ -12,7 +12,7 @@ class RepoDetail extends StatelessWidget {
           ],
         ),
         appBar: AppBar(
-          title: Text('lists'),
+          title: Text('仓库的名称'),
         ));
   }
 }
