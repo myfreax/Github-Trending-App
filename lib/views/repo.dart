@@ -5,7 +5,7 @@ Widget buildRepo(Repo repo,BuildContext context) {
   final double iconSize = 12;
   return GestureDetector(
       onTap: () {
-        // Navigator.pushNamed(context, '/detail');
+        Navigator.pushNamed(context, '/detail');
       },
       child: Container(
         padding: EdgeInsets.all(10),
