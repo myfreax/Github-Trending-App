@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
+import 'dart:convert';
+
+const String kNavigationExamplePage = '''
+<!DOCTYPE html><html>
+<head><title>Navigation Delegate Example</title></head>
+<body>
+<p>
+The navigation delegate is set to block navigation to the youtube website.
+</p>
+<ul>
+<ul><a href="https://www.youtube.com/">https://www.youtube.com/</a></ul>
+<ul><a href="https://www.google.com/">https://www.google.com/</a></ul>
+</ul>
+</body>
+</html>
+''';
+
+final String contentBase64 = base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
+
 
 JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
   return JavascriptChannel(
@@ -20,8 +39,7 @@ class RepoDetail extends StatelessWidget {
     return Scaffold(
         body: Builder(builder: (BuildContext context) {
           return WebView(
-              initialUrl:
-                  'https://github.com/fluttercommunity/flutter_webview_plugin/blob/master/README.md',
+              initialUrl: 'data:text/html;base64,$contentBase64',
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _controller.complete(webViewController);
