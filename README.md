@@ -35,3 +35,6 @@ flutter run
 - How read data from Remote Api
 - How auto serializing JSON
 - How add interactivity with multi widget
+
+## Related items
+- [github_trending](https://github.com/huangyanxiong01/github_trending)
