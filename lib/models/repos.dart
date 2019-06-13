@@ -2,6 +2,8 @@ import 'package:github_trend/github_trend.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:GTA/repos.dart';
 
+
+
 class ReposModel extends Model {
   bool isLoading = true;
   String language = 'all';

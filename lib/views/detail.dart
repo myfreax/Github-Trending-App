@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:GTA/repo.dart';
+import 'package:http/http.dart' as http;
+// var url = 'http://example.com/whatsit/create';
+// var response = await http.post(url, body: {'name': 'doodle', 'color': 'blue'});
+
 
 const String kNavigationExamplePage = '''
 <!DOCTYPE html><html>
@@ -20,18 +25,9 @@ The navigation delegate is set to block navigation to the youtube website.
 
 final String contentBase64 = base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
 
-
-JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
-  return JavascriptChannel(
-      name: 'Toaster',
-      onMessageReceived: (JavascriptMessage message) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(content: Text(message.message)),
-        );
-      });
-}
-
 class RepoDetail extends StatelessWidget {
+  final Repo repo;
+  RepoDetail(this.repo);
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   @override
@@ -43,20 +39,10 @@ class RepoDetail extends StatelessWidget {
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewController) {
                 _controller.complete(webViewController);
-              },
-              javascriptChannels: <JavascriptChannel>[
-                _toasterJavascriptChannel(context),
-              ].toSet(),
-              onPageFinished: (String url) {
-                _controller.future.then((controller) {
-                  controller.evaluateJavascript(
-                      'document.querySelector("header").removeChild(document.querySelector("header div"));');
-                });
-                print('Page finished loading: $url');
               });
         }),
         appBar: AppBar(
-          title: Text('仓库的名称'),
+          title: Text(repo.name),
         ));
   }
 }

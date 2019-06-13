@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import '../repo.dart';
+import 'package:GTA/views/detail.dart';
+import 'package:GTA/repo.dart';
+
 // Todo the function will be widget
-Widget buildRepo(Repo repo,BuildContext context) {
+Widget buildRepo(Repo repo, BuildContext context) {
   final double iconSize = 12;
   return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/detail');
+        // 导航到详情页面
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RepoDetail(repo),
+            ));
       },
       child: Container(
         padding: EdgeInsets.all(10),

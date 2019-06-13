@@ -108,7 +108,6 @@ class ListsWidget extends StatelessWidget {
       body: ScopedModelDescendant<ReposModel>(
         builder: (buildContext, widget, reposModel) {
           Repos repos = reposModel.repos;
-
           if (repos != null && reposModel.isLoading == false) {
             List<Widget> list = [];
             for (var i = 0; i < repos.items.length; i++) {
