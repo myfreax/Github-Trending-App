@@ -13,10 +13,12 @@ Repo _$RepoFromJson(Map<String, dynamic> json) {
       json['description'] as String ?? '',
       json['fork'] as String ?? '',
       json['language'] as String ?? 'Unknown',
-      json['todayStar'] as String ?? '');
+      json['todayStar'] as String ?? '')
+    ..url = json['url'] as String ?? '';
 }
 
 Map<String, dynamic> _$RepoToJson(Repo instance) => <String, dynamic>{
+      'url': instance.url,
       'name': instance.name,
       'star': instance.star,
       'fork': instance.fork,

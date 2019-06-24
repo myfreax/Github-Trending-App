@@ -4,6 +4,8 @@ part 'repo.g.dart';
 @JsonSerializable(nullable: true)
 class Repo {
   @JsonKey(nullable: true, defaultValue: '')
+  String url;
+  @JsonKey(nullable: true, defaultValue: '')
   String name;
   @JsonKey(nullable: true, defaultValue: '')
   String star;
