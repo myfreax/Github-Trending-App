@@ -7,6 +7,13 @@ Github Trending app built with [Flutter](https://github.com/flutter)
 <img  src="./images/Screenshot_1555422560.png" width="320">
 
 
+## Features
+- [x] check repository README
+- [x] filter repositories by language
+- [] filter repositories by date(daily, weekly, monthly)
+- [] star your like repository
+- [] Github login
+
 
 
 ## Build
@@ -28,10 +35,3 @@ Run app
 ```
 flutter run
 ```
-
-## Learn
-
-- How build layout in flutter
-- How read data from Remote Api
-- How auto serializing JSON
-- How add interactivity with multi widget

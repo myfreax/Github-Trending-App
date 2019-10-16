@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:GTA/models/repos.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:GTA/repos.dart';
 import 'package:github_trend/github_trend.dart';
 import 'package:GTA/views/repo.dart';
 import 'package:package_info/package_info.dart';
+import 'package:html/dom.dart' as DOM;
+import 'package:flutter/material.dart';
 
 Future<List<String>> fetchLanguages() async {
   GithubTrend githubTrend = GithubTrend();
-  List<String> languages = await githubTrend.fetchLanguages();
-  return languages;
+  DOM.Document document = await githubTrend.fetchTrending();
+  return Languages(document).list;
 }
 
 Future<PackageInfo> fetchPackageInfo() async {
@@ -107,26 +107,29 @@ class ListsWidget extends StatelessWidget {
       ),
       body: ScopedModelDescendant<ReposModel>(
         builder: (buildContext, widget, reposModel) {
-          Repos repos = reposModel.repos;
-          if (repos != null && reposModel.isLoading == false) {
-            List<Widget> list = [];
-            for (var i = 0; i < repos.items.length; i++) {
-              list.add(buildRepo(repos.items[i], buildContext));
-              if (i < repos.items.length - 1) {
-                list.add(Divider());
-              }
-            }
-            if (list.isEmpty) {
-              return Center(
-                child: Text('404 Not Foud'),
-              );
-            }
-            return ListView(children: list);
-          }
           // when load data eroor
           if (reposModel.loadErrorMsg != '') {
             return Center(child: Text(reposModel.loadErrorMsg));
           }
+
+          List<Repo> repos = reposModel.repos;
+          if (repos.isEmpty) {
+            return Center(
+                child: Text('It looks like we don’t have any trending repositories for ${reposModel.language}.'),
+              );
+          }
+          
+          if (repos.isNotEmpty && reposModel.isLoading == false) {
+            List<Widget> list = [];
+            for (var i = 0; i < repos.length; i++) {
+              list.add(buildRepo(repos[i], buildContext));
+              if (i < repos.length - 1) {
+                list.add(Divider());
+              }
+            }
+            return ListView(children: list);
+          }
+          
           // By default, show a loading spinner
           return Center(child: CircularProgressIndicator());
         },

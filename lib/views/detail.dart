@@ -3,7 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:GTA/readme.dart';
-import 'package:GTA/repo.dart';
+import 'package:github_trend/github_trend.dart';
 
 class RepoDetail extends StatelessWidget {
   final Repo repo;

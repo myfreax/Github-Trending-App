@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:GTA/views/detail.dart';
-import 'package:GTA/repo.dart';
+import 'package:github_trend/github_trend.dart';
 
 // Todo the function will be widget
 Widget buildRepo(Repo repo, BuildContext context) {
