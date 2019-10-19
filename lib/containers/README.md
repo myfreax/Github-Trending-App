@@ -1,0 +1,2 @@
+The Widgets that use StoreConnectors are called container Widgets. They are only responsible for converting the latest App State to a ViewModel for your presentation Widgets.
+You can reuse container Widgets in presentation widget. For an example, please look at the AppLoading Widget.

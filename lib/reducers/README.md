@@ -1,0 +1,1 @@
+Reducer responsible change state and returns a new State based on the previous State when the Action that was dispatched
