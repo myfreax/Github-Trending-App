@@ -1,56 +1,56 @@
 import 'package:github_trend/github_trend.dart';
 
-class LoadLanguagesAction{}
+class ToggleRepoAction {
+  Repo repo;
+  ToggleRepoAction(this.repo);
+}
 
-class LanguagesLoadedAction{
+class ToggleLanguageAction {
+  String language;
+  ToggleLanguageAction(this.language);
+}
+
+class LoadLanguagesAction {}
+
+class LanguagesLoadedAction {
   List<String> languages;
   LanguagesLoadedAction(this.languages);
 }
 
-class LanguagesNotLoadedAction{
-  String errorMsg;
-  LanguagesNotLoadedAction(this.errorMsg);
+class LanguagesNotLoadedAction {
+  String languagesErrMsg;
+  LanguagesNotLoadedAction(this.languagesErrMsg);
 }
 
-class LoadRepoAction{
+class LoadDetailAction {
   String url;
-  LoadRepoAction(this.url);
+  LoadDetailAction(this.url);
 }
 
-class RepoLoadedAction{
-  String repo;
-  RepoLoadedAction(this.repo);
+class DetailLoadedAction {
+  String detail;
+  DetailLoadedAction(this.detail);
 }
 
-class RepoNotLoadedAction{
-  String errorMessage;
-  RepoNotLoadedAction(this.errorMessage);
+class DetailNotLoadedAction {
+  String errorMsg;
+  DetailNotLoadedAction(this.errorMsg);
 }
 
 class LoadReposAction {
   final Since since;
   final String language;
-  
-  LoadReposAction({this.language = 'all', this.since =Since.daily});
+
+  LoadReposAction({this.language = 'all', this.since = Since.daily});
 }
 
 class ReposLoadedAction {
   List<Repo> repos;
 
   ReposLoadedAction(this.repos);
-
-  @override
-  String toString() {
-    return 'ReposLoadedAction{todos: $repos}';
-  }
 }
 
 class ReposNotLoadedAction {
-  String error;
-  ReposNotLoadedAction(this.error);
-
-  @override
-  String toString() {
-    return 'ReposNotLoadedAction{error: $error}';
-  }
+  String reposErrMsg;
+  ReposNotLoadedAction(this.reposErrMsg);
 }

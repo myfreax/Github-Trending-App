@@ -3,10 +3,10 @@ import 'package:GTA/containers/app_repos.dart';
 import 'package:GTA/containers/reflesh_repos.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends StatefulWidget {
+class HomePage extends StatefulWidget {
   final void Function() onInit;
 
-  HomeView({Key key, @required this.onInit});
+  HomePage({Key key, @required this.onInit});
 
   @override
   State<StatefulWidget> createState() {
@@ -14,7 +14,7 @@ class HomeView extends StatefulWidget {
   }
 }
 
-class HomeState extends State<HomeView> {
+class HomeState extends State<HomePage> {
   @override
   void initState() {
     widget.onInit();
@@ -27,7 +27,7 @@ class HomeState extends State<HomeView> {
       appBar: AppBar(
         title: Text('Github Trending'),
       ),
-      endDrawer: AppLanguages(),
+      endDrawer: Drawer(child: AppLanguages()),
       floatingActionButton: ReFleshRepos(),
       body: AppRepos(),
     );

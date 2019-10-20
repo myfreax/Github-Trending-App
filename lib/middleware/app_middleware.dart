@@ -1,4 +1,5 @@
 import 'package:GTA/models/app_state.dart';
+import 'package:GTA/selectors/selectors.dart';
 import 'package:redux/redux.dart';
 import 'package:github_trend/github_trend.dart';
 import 'package:GTA/actions/actions.dart';
@@ -11,40 +12,28 @@ GithubTrend githubTrend = GithubTrend();
 List<Middleware<AppState>> AppMiddleware() {
   return [
     TypedMiddleware<AppState, LoadReposAction>(_loadRepos()),
-    TypedMiddleware<AppState, LoadRepoAction>(_loadRepo()),
-    TypedMiddleware<AppState, LoadLanguagesAction>(_loadLanguages())
+    TypedMiddleware<AppState, LoadDetailAction>(_loadDetail()),
   ];
-}
-
-Middleware<AppState> _loadLanguages() {
-  return (Store<AppState> store, action, NextDispatcher next) {
-    githubTrend.fetchTrending().then((document) {
-      try {
-        store.dispatch(LanguagesLoadedAction(Languages(document).list));
-      } catch (e) {
-        store.dispatch(LanguagesNotLoadedAction(e.message));
-      }
-    }).catchError((e) {
-      store.dispatch(LanguagesNotLoadedAction(e.message));
-    });
-    next(action);
-  };
 }
 
 Middleware<AppState> _loadRepos() {
   return (Store<AppState> store, action, NextDispatcher next) {
-    githubTrend.fetchTrending().then((document) {
-
+    githubTrend
+        .fetchTrending(
+            language: languageSelector(store), since: sinceSelector(store))
+        .then((document) {
       try {
         store.dispatch(ReposLoadedAction(Repos(document).list));
       } catch (e) {
         store.dispatch(ReposNotLoadedAction(e.message));
       }
-      
-      try {
-        store.dispatch(LanguagesLoadedAction(Languages(document).list));
-      } catch (e) {
-        store.dispatch(LanguagesNotLoadedAction(e.message));
+
+      if (languagesSelector(store).isEmpty) {
+        try {
+          store.dispatch(LanguagesLoadedAction(Languages(document).list));
+        } catch (e) {
+          store.dispatch(LanguagesNotLoadedAction(e.message));
+        }
       }
     }).catchError((e) {
       store.dispatch(ReposNotLoadedAction(e.message));
@@ -53,7 +42,7 @@ Middleware<AppState> _loadRepos() {
   };
 }
 
-Middleware<AppState> _loadRepo() {
+Middleware<AppState> _loadDetail() {
   return (Store<AppState> store, action, NextDispatcher next) {
     http.get(action.url).then((res) {
       Document document = parse(res.body);
@@ -70,12 +59,12 @@ Middleware<AppState> _loadRepo() {
                 'https://github.com' + img.attributes['src'];
           }
         });
-        store.dispatch(RepoLoadedAction(document.outerHtml));
+        store.dispatch(DetailLoadedAction(document.outerHtml));
       } else {
-        store.dispatch(RepoNotLoadedAction('Parse DOM Fail'));
+        store.dispatch(DetailNotLoadedAction('Parse DOM Fail'));
       }
     }).catchError(
-        (error) => store.dispatch(RepoNotLoadedAction(error.message)));
+        (error) => store.dispatch(DetailNotLoadedAction(error.message)));
     next(action);
   };
 }

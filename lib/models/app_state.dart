@@ -19,18 +19,24 @@ class AppState {
 
   final String language;
 
-  final String repo;
+  final String detail;
 
-  final Repo selectedRepo;
+  final Repo repo;
+
+  final String reposErrMsg;
+
+  final String languagesErrMsg;
 
   AppState(
       {this.isLoading = false,
       this.repos = const [],
-      this.repo = '',
+      this.detail = '',
       this.language = 'all',
       this.languages = const [],
       this.since = Since.daily,
-      this.selectedRepo = null});
+      this.reposErrMsg = '',
+      this.languagesErrMsg = '',
+      this.repo = null});
 
   factory AppState.loading() => AppState(isLoading: true);
 
