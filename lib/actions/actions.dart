@@ -1,39 +1,49 @@
 import 'package:github_trend/github_trend.dart';
 
-class ToggleRepoAction {
-  Repo repo;
-  ToggleRepoAction(this.repo);
+class LoginAction {
+  final Map<String, String> user;
+  LoginAction(this.user);
+}
+
+class LoginedAction {
+  final Map<String, String> user;
+  LoginedAction(this.user);
+}
+
+class LoginFailAction {
+  final String loginErrMsg;
+  LoginFailAction(this.loginErrMsg);
 }
 
 class ToggleLanguageAction {
-  String language;
+  final String language;
   ToggleLanguageAction(this.language);
 }
 
 class LoadLanguagesAction {}
 
 class LanguagesLoadedAction {
-  List<String> languages;
+  final List<String> languages;
   LanguagesLoadedAction(this.languages);
 }
 
 class LanguagesNotLoadedAction {
-  String languagesErrMsg;
+  final String languagesErrMsg;
   LanguagesNotLoadedAction(this.languagesErrMsg);
 }
 
 class LoadDetailAction {
-  String url;
+  final String url;
   LoadDetailAction(this.url);
 }
 
 class DetailLoadedAction {
-  String detail;
+  final String detail;
   DetailLoadedAction(this.detail);
 }
 
 class DetailNotLoadedAction {
-  String errorMsg;
+  final String errorMsg;
   DetailNotLoadedAction(this.errorMsg);
 }
 
@@ -45,12 +55,12 @@ class LoadReposAction {
 }
 
 class ReposLoadedAction {
-  List<Repo> repos;
+  final List<Repo> repos;
 
   ReposLoadedAction(this.repos);
 }
 
 class ReposNotLoadedAction {
-  String reposErrMsg;
+  final String reposErrMsg;
   ReposNotLoadedAction(this.reposErrMsg);
 }

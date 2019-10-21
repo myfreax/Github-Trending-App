@@ -10,6 +10,9 @@ final loadingReducer = combineReducers<bool>([
   TypedReducer<bool, LanguagesNotLoadedAction>(_setLoaded),
   TypedReducer<bool, DetailLoadedAction>(_setLoaded),
   TypedReducer<bool, DetailNotLoadedAction>(_setLoaded),
+  TypedReducer<bool, LoginAction>(_setLoading),
+  TypedReducer<bool, LoginFailAction>(_setLoaded),
+  TypedReducer<bool, LoginedAction>(_setLoaded),
 ]);
 
 bool _setLoaded(bool state, action) {

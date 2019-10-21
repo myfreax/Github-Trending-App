@@ -7,10 +7,10 @@ import 'package:github_trend/github_trend.dart';
 /// Must be decorated with immutable decorator App state
 @immutable
 class AppState {
-  /// Load the status of the repositories list
+  final Map<String, String> user;
+
   final bool isLoading;
 
-  /// epositories list
   final List<Repo> repos;
 
   final List<String> languages;
@@ -25,16 +25,20 @@ class AppState {
 
   final String reposErrMsg;
 
+  final String loginErrMsg;
+
   final String languagesErrMsg;
 
   AppState(
       {this.isLoading = false,
       this.repos = const [],
+      this.user = null,
       this.detail = '',
       this.language = 'all',
       this.languages = const [],
       this.since = Since.daily,
       this.reposErrMsg = '',
+      this.loginErrMsg = '',
       this.languagesErrMsg = '',
       this.repo = null});
 

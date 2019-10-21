@@ -18,5 +18,7 @@ String detailSelector(Store<AppState> store) => store.state.detail;
 
 String reposErrMsgSelector(Store<AppState> store) => store.state.reposErrMsg;
 
+String loginErrMsgSelector(Store<AppState> store) => store.state.loginErrMsg;
+
 String languagesErrMsgSelector(Store<AppState> store) =>
     store.state.languagesErrMsg;

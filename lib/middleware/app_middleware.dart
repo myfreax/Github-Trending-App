@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:GTA/models/app_state.dart';
 import 'package:GTA/selectors/selectors.dart';
 import 'package:redux/redux.dart';
@@ -13,6 +15,7 @@ List<Middleware<AppState>> AppMiddleware() {
   return [
     TypedMiddleware<AppState, LoadReposAction>(_loadRepos()),
     TypedMiddleware<AppState, LoadDetailAction>(_loadDetail()),
+    TypedMiddleware<AppState, LoginAction>(_login())
   ];
 }
 
@@ -21,7 +24,7 @@ Middleware<AppState> _loadRepos() {
     githubTrend
         .fetchTrending(
             language: languageSelector(store), since: sinceSelector(store))
-        .then((document) {
+        .then((Document document) {
       try {
         store.dispatch(ReposLoadedAction(Repos(document).list));
       } catch (e) {
@@ -44,7 +47,7 @@ Middleware<AppState> _loadRepos() {
 
 Middleware<AppState> _loadDetail() {
   return (Store<AppState> store, action, NextDispatcher next) {
-    http.get(action.url).then((res) {
+    http.get(action.url).then((http.Response res) {
       Document document = parse(res.body);
       if (document.querySelector('#readme') != null) {
         document.body.classes
@@ -66,5 +69,25 @@ Middleware<AppState> _loadDetail() {
     }).catchError(
         (error) => store.dispatch(DetailNotLoadedAction(error.message)));
     next(action);
+  };
+}
+
+Middleware<AppState> _login() {
+  return (Store<AppState> store, action, NextDispatcher next) {
+    Map<String, String> headers = {};
+    String userAndPass = base64Encode(
+        utf8.encode('${action.user.username}:${action.user.password}'));
+    headers.putIfAbsent("Authorization", () => "basic $userAndPass");
+    http
+        .get('https://api.github.com/user', headers: headers)
+        .then((http.Response res) {
+      if (res.statusCode == 200) {
+        store.dispatch(LoginedAction(action.username));
+      } else {
+        store.dispatch(LoginFailAction(res.statusCode.toString()));
+      }
+    }).catchError((e) {
+      store.dispatch(LoginFailAction(e.message));
+    });
   };
 }

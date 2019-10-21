@@ -20,7 +20,7 @@ class ReduxApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-          initialRoute: '/',
+          initialRoute: Routes.login,
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

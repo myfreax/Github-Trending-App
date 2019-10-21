@@ -4,7 +4,8 @@ import 'package:GTA/reducers/language_err_msg_reducer.dart';
 import 'package:GTA/reducers/language_reducer.dart';
 import 'package:GTA/reducers/languages_redcer.dart';
 import 'package:GTA/reducers/loading_reducer.dart';
-import 'package:GTA/reducers/repo_reducer.dart';
+import 'package:GTA/reducers/login_err_mgs_reducer.dart';
+import 'package:GTA/reducers/login_reducer.dart';
 import 'package:GTA/reducers/repos_err_msg_reducer.dart';
 import 'package:GTA/reducers/repos_reducer.dart';
 
@@ -15,8 +16,9 @@ AppState appReducer(AppState state, action) {
       repos: reposReducer(state.repos, action),
       languages: languagesReducer(state.languages, action),
       language: languageReducer(state.language, action),
-      repo: repoReducer(state.repo, action),
       detail: detailReducer(state.detail, action),
+      user: loginReducer(state.user, action),
+      loginErrMsg: loginErrMsgReducer(state.loginErrMsg, action),
       languagesErrMsg: languageErrMsgReducer(state.languagesErrMsg, action),
       reposErrMsg: reposErrMsgReducer(state.reposErrMsg, action));
 }
