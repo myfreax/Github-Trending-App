@@ -1,4 +1,4 @@
-import 'package:GTA/presentation/widgets/repo_item.dart';
+import 'package:GTA/containers/app_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:github_trend/github_trend.dart';
@@ -32,7 +32,7 @@ class ReposList extends StatelessWidget {
     if (repos.isNotEmpty) {
       List<Widget> list = [];
       for (var i = 0; i < repos.length; i++) {
-        list.add(RepoItem(
+        list.add(AppRepo(
           repo: repos[i],
         ));
         if (i < repos.length - 1) {

@@ -1,32 +1,20 @@
-import 'package:GTA/actions/actions.dart';
-import 'package:GTA/models/app_state.dart';
-import 'package:GTA/presentation/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:github_trend/github_trend.dart';
 
 class RepoItem extends StatelessWidget {
+  final void Function({@required Repo repo, @required BuildContext context})
+      toDetail;
   final Repo repo;
 
-  RepoItem({Key key, @required this.repo}) : super(key: key);
+  RepoItem({Key key, @required this.repo, @required this.toDetail})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double iconSize = 12;
     return GestureDetector(
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => DetailPage(
-              onInit: () {
-                StoreProvider.of<AppState>(context)
-                    .dispatch(LoadDetailAction(repo.url));
-              },
-              title: repo.name,
-            ),
-          ));
-          // Navigator.of(context).pushNamed(Routes.detail, arguments: repo);
-        },
+        onTap: () => toDetail(repo: repo, context: context),
         child: Container(
           padding: EdgeInsets.all(10),
           child: Column(
