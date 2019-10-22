@@ -36,7 +36,7 @@ class _ViewModel {
         loginErrMsg: loginErrMsgSelector(store),
         loading: loadingSelector(store),
         login: ({@required String username, @required String password}) {
-          store.dispatch(LoginAction({username: username, password: password}));
+          store.dispatch(LoginAction({'username': username, 'password': password}));
         });
   }
 }

@@ -15,14 +15,21 @@ class LoginForm extends StatefulWidget {
       : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return LoginFormState(login: login);
+    return LoginFormState(login: login, loading: loading, loginErrMsg: loginErrMsg);
   }
 }
 
 class LoginFormState extends State<LoginForm> {
+  final String loginErrMsg;
+  final bool loading;
   final void Function({@required String username, @required String password})
       login;
-  LoginFormState({Key key, @required this.login}) : super();
+  LoginFormState(
+      {Key key,
+      @required this.login,
+      @required this.loading,
+      @required this.loginErrMsg})
+      : super();
   final passwdCtrl = TextEditingController();
   final usernameCtrl = TextEditingController();
 
@@ -61,46 +68,54 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Row(children: <Widget>[
-            Expanded(
-              child: TextField(
-                autofocus: true,
-                controller: usernameCtrl,
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Username OR Email',
+    if (loading) {
+      return Dialog(child: CircularProgressIndicator());
+    }
+
+    if (loginErrMsg.isNotEmpty) {
+      return Dialog(child: Text(loginErrMsg));
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Row(children: <Widget>[
+              Expanded(
+                child: TextField(
+                  autofocus: true,
+                  controller: usernameCtrl,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Username OR Email',
+                  ),
                 ),
               ),
-            ),
-          ]),
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 10),
-          child: Row(children: <Widget>[
-            Expanded(
-              child: TextField(
-                autofocus: true,
-                controller: passwdCtrl,
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
+            ]),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Row(children: <Widget>[
+              Expanded(
+                child: TextField(
+                  autofocus: true,
+                  controller: passwdCtrl,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                  ),
                 ),
               ),
-            ),
-          ]),
-        ),
-        FlatButton(
-          child: Text('Login'),
-          onPressed: _submit,
-        ),
-      ],
-    );
+            ]),
+          ),
+          FlatButton(
+            child: Text('Login'),
+            onPressed: _submit,
+          ),
+        ],
+      );
+    }
   }
 }

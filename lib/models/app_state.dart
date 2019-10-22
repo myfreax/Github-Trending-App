@@ -1,3 +1,4 @@
+import 'package:GTA/models/models.dart';
 import 'package:meta/meta.dart';
 import 'package:github_trend/github_trend.dart';
 
@@ -7,7 +8,7 @@ import 'package:github_trend/github_trend.dart';
 /// Must be decorated with immutable decorator App state
 @immutable
 class AppState {
-  final Map<String, String> user;
+  final User user;
 
   final bool isLoading;
 

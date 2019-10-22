@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:GTA/models/app_state.dart';
+import 'package:GTA/models/models.dart';
 import 'package:GTA/selectors/selectors.dart';
 import 'package:redux/redux.dart';
 import 'package:github_trend/github_trend.dart';
@@ -76,18 +77,21 @@ Middleware<AppState> _login() {
   return (Store<AppState> store, action, NextDispatcher next) {
     Map<String, String> headers = {};
     String userAndPass = base64Encode(
-        utf8.encode('${action.user.username}:${action.user.password}'));
+        utf8.encode('${action.user['username']}:${action.user['password']}'));
     headers.putIfAbsent("Authorization", () => "basic $userAndPass");
     http
         .get('https://api.github.com/user', headers: headers)
         .then((http.Response res) {
       if (res.statusCode == 200) {
-        store.dispatch(LoginedAction(action.username));
+        Map<String, dynamic> map = jsonDecode(res.body);
+        map['password'] = action.user['password'];
+        store.dispatch(LoginedAction(User.fromJson(map)));
       } else {
         store.dispatch(LoginFailAction(res.statusCode.toString()));
       }
     }).catchError((e) {
       store.dispatch(LoginFailAction(e.message));
     });
+    next(action);
   };
 }

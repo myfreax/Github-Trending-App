@@ -1,3 +1,4 @@
+import 'package:GTA/models/user.dart';
 import 'package:github_trend/github_trend.dart';
 
 class LoginAction {
@@ -6,7 +7,7 @@ class LoginAction {
 }
 
 class LoginedAction {
-  final Map<String, String> user;
+  final User user;
   LoginedAction(this.user);
 }
 
