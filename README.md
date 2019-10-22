@@ -1,8 +1,8 @@
 # Github Trending App [![Build Status](https://travis-ci.org/huangyanxiong01/Github-Trending-App.svg?branch=master)](https://travis-ci.org/huangyanxiong01/Github-Trending-App)
 
-Github Trending app built with [Flutter](https://github.com/flutter)
+Github Trending app built with [Flutter](https://github.com/flutter)+Redux
 
-> Small but complete
+> If you want to learn Flutter, it is perfect for you. Small but complete
 
 
 <img align="left" src="./images/Screenshot_1555422547.png" width="320">  
@@ -13,9 +13,9 @@ Github Trending app built with [Flutter](https://github.com/flutter)
 - [x] View README of the Repository
 - [x] Filter repositories by language
 - [ ] Filter repositories by date(daily, weekly, monthly)
-- [ ] Star your favorite repository
-- [ ] Github login
-- [ ] CI
+- [X] Star your favorite repository
+- [X] Github login
+- [x] CI
 - [ ] Unit test
 
 
