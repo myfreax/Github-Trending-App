@@ -1,38 +1,43 @@
-import 'package:GTA/actions/actions.dart';
-import 'package:GTA/middleware/app_middleware.dart';
-import 'package:GTA/models/app_state.dart';
-import 'package:GTA/reducers/app_state_reducer.dart';
-import 'package:GTA/routes.dart';
+import 'package:GTA/app/app_actions.dart';
+import 'package:GTA/app/app_state.dart';
+import 'package:built_redux/built_redux.dart';
+import 'package:GTA/app/app_reducers.dart';
+import 'package:GTA/app/app_middleware.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux/redux.dart';
-import 'package:GTA/presentation/home_page.dart';
-import 'package:GTA/presentation/login_page.dart';
-import 'package:GTA/presentation/stars_page.dart';
-import 'package:redux_dev_tools/redux_dev_tools.dart';
+import 'package:GTA/pages/home/models/query_params_payload.dart';
+import 'package:GTA/pages/login/login_page.dart';
+import 'package:GTA/pages/home/home_page.dart';
+import 'package:GTA/routes.dart';
+import 'package:flutter_built_redux/flutter_built_redux.dart';
+import 'package:github_trend/github_trend.dart';
 
-void main() => runApp(ReduxApp());
+void main() {
+  Store<AppState, AppStateBuilder, AppActions> store = Store(
+      appReducer.build(), AppState(), AppActions(),
+      middleware: [appMiddleware.build()]);
+  runApp(ReduxApp(store));
+}
 
 class ReduxApp extends StatelessWidget {
-  final Store store = DevToolsStore<AppState>(appReducer,
-      initialState: AppState(), middleware: AppMiddleware());
+  final Store<AppState, AppStateBuilder, AppActions> store;
+
+  ReduxApp(this.store);
+
   @override
   Widget build(BuildContext context) {
-    return StoreProvider<AppState>(
+    return ReduxProvider(
       store: store,
       child: MaterialApp(
-          initialRoute: Routes.login,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          routes: {
-            Routes.home: (context) => HomePage(onInit: () {
-                  StoreProvider.of<AppState>(context)
-                      .dispatch(LoadReposAction());
-                }),
-            Routes.login: (context) => LoginPage(),
-            Routes.stars: (context) => StarsPage(),
-          }),
+        initialRoute: Routes.home,
+        theme: ThemeData(primarySwatch: Colors.blue),
+        routes: {
+          Routes.login: (context) => LoginPage(),
+          Routes.home: (context) => HomePage(onInit: () {
+                store.actions.homeActions
+                    .loadRepos(QueryParamsPayload(Since.daily, 'all'));
+              }),
+        },
+      ),
     );
   }
 }

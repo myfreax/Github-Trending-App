@@ -1,1 +1,0 @@
-The Action will be picked up by a Reducer, which is a function that builds and returns a new State based on the previous State and the Action that was dispatched.

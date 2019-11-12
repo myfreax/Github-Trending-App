@@ -1,1 +1,0 @@
-Handle fetching data from our Database or Web Service, we use a Middleware

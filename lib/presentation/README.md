@@ -1,1 +1,0 @@
-Widgets that display data are called presentation widgets
