@@ -1,6 +1,6 @@
 # Github Trending App [![Build Status](https://travis-ci.org/huangyanxiong01/Github-Trending-App.svg?branch=master)](https://travis-ci.org/huangyanxiong01/Github-Trending-App)
 
-Github Trending app built with [Flutter](https://github.com/flutter)+[Redux](https://github.com/brianegan/flutter_redux)+[Built(Immutable Data)](https://github.com/google/built_value.dart)
+Github Trending app built with [Flutter](https://github.com/flutter)+[Redux](https://github.com/brianegan/flutter_redux)+[Built](https://github.com/google/built_value.dart)(Immutable Data)
 
 > If you want to learn Flutter, it is perfect for you. Small but complete
 
